@@ -44,7 +44,7 @@ resource "vsphere_virtual_machine" "vm-lb" {
     agent    = "false"
     }
       source      = "./template-files"
-      destination = "/var/template-files"
+      destination = "/home/student/template-files"
   }
   provisioner "remote-exec" {
     connection {
@@ -56,9 +56,11 @@ resource "vsphere_virtual_machine" "vm-lb" {
     agent    = "false"
     }
     inline = [
-      "echo ${var.password} | sudo -s cp /var/template-files/sshd_config /etc/ssh/",
-      "echo ${var.password} | sudo -s cp /var/template-files/sshd_config .ssh/",
-      "echo ${var.password} | sudo -s service shhd restart"
+      "echo ${var.password} | sudo -S rm /etc/ssh/sshd_config",
+      "echo ${var.password} | sudo -S mkdir .ssh",
+      "echo ${var.password} | sudo -S cp template-files/sshd_config /etc/ssh/",
+      "echo ${var.password} | sudo -S cp template-files/id_rsa.pub .ssh/authorized_keys",
+      "echo ${var.password} | sudo -S service ssh restart"
     ]
   }
 }

@@ -48,7 +48,24 @@ resource "vsphere_virtual_machine" "vm" {
     agent    = "false"
     }
       source      = "./template-files"
-      destination = "/var/template-files"
+      destination = "/home/student/template-files"
+  }
+  provisioner "remote-exec" {
+    connection {
+    type     = "ssh"
+    user     = var.user
+    password = var.password
+    host     = local.ipPub
+    port     = [for ip in local.ips : tostring(ip.port) if ip.ip == self.guest_ip_addresses[0]][0]
+    agent    = "false"
+    }
+    inline = [
+      "echo ${var.password} | sudo -S rm /etc/ssh/sshd_config",
+      "echo ${var.password} | sudo -S mkdir .ssh",
+      "echo ${var.password} | sudo -S cp template-files/sshd_config /etc/ssh/",
+      "echo ${var.password} | sudo -S cp template-files/id_rsa.pub .ssh/authorized_keys",
+      "echo ${var.password} | sudo -S service ssh restart"
+    ]
   }
 }
 
