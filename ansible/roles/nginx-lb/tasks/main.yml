@@ -1,3 +1,0 @@
-- name: Copy nginx configuration for lb
-  template: src=default.conf dest=/etc/nginx/conf.d/default.conf
-  notify: restart nginx
