@@ -1,0 +1,8 @@
+[webservers]
+web0 ansible_host=172.23.82.60 ansible_port=2012 ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_sudo_pass=123
+web1 ansible_host=172.23.82.60 ansible_port=2010 ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_sudo_pass=123
+
+[lbservers]
+
+
+lb0 ansible_host=172.23.82.60 ansible_port=2011 ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_sudo_pass=123
