@@ -7,12 +7,15 @@ resource "local_file" "inventory" {
     filename = "../ansible/inventory/inventory-static.txt"
 }
 resource "null_resource" "ansible" {
+    triggers = {
+        webservers = join(",", vsphere_virtual_machine.vm[*].default_ip_address)
+        loadbalancers = join(",", vsphere_virtual_machine.vm-lb[*].default_ip_address)
+
+  }
 
     provisioner "local-exec" {
+
         command = "ansible-playbook -i '../ansible/inventory/inventory-static.txt'  --extra-vars '${jsonencode(local.vars)}'  ../ansible/site.yml " 
     }
    
 }
- output "instance_ip_addr" {
-        value = local.vars
-    }

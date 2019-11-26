@@ -5,3 +5,9 @@
   service: 
         name: nginx
         state: started
+- name: Change line
+  lineinfile : 
+    dest: /var/www/html/index.nginx-debian.html
+    regexp: '<h1>.+'
+    line: '<h1>Welcome to nginx {{inventory_hostname}}</h1>'
+    backrefs: yes
