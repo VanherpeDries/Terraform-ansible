@@ -47,7 +47,7 @@ resource "vsphere_virtual_machine" "vm" {
     port     = [for ip in local.ips : tostring(ip.port) if ip.ip == self.guest_ip_addresses[0]][0]
     agent    = "false"
     }
-      source      = "./template-files"
+      source      = "./template-files/ssh"
       destination = "/home/student/template-files"
   }
   provisioner "remote-exec" {
